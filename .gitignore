@@ -1,0 +1,7 @@
+##### server vendor libs ####
+vendors
+**/vendors/
+/server/vendors
+
+##### python compiled script ####
+*.pyc

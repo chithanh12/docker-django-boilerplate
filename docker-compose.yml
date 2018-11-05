@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: sld
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  vendors:
+    build: .
+    working_dir: /code
+    volumes:
+      - .:/code
+    environment:
+      PYTHONUSERBASE: /code/vendors
+    command: pip install -r requirements.txt --user --upgrade    
+  web:
+    build: .
+    working_dir: /code
+    volumes:
+      - .:/code
+    ports: 
+      - "80:80"
+    environment:
+      PYTHONUNBUFFERED: 1
+      PYTHONUSERBASE: /code/vendors
+    command: /bin/bash /code/cmd_start_web.sh
+    #net: "host"
+    links:
+      - db
